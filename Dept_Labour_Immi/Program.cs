@@ -1,4 +1,5 @@
 using Dept_Labour_Immi.Data;
+using Dept_Labour_Immi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = false;
 
 });
-
+builder.Services.AddScoped<IOperationOneService, OperationOneService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

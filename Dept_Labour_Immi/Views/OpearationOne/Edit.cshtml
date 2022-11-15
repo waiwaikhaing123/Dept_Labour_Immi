@@ -1,0 +1,89 @@
+﻿@model Dept_Labour_Immi.Models.OpearationOne
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>OperationOne</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="ApplyDate" class="control-label"></label>
+                <input asp-for="ApplyDate" class="form-control" type="date" />
+                <span asp-validation-for="ApplyDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentCompleteDate" class="control-label"></label>
+                <input asp-for="DocumentCompleteDate" class="form-control" type="date" />
+                <span asp-validation-for="DocumentCompleteDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgencyID" class="control-label"></label>
+                <input asp-for="AgencyID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ThaiCompanyID" class="control-label"></label>
+                <input asp-for="ThaiCompanyID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="DOEID" class="control-label"></label>
+                <input asp-for="DOEID" class="form-control" />
+            </div>
+           @* <div class="form-group">
+                <label asp-for="WorkTypeID" class="control-label"></label>
+                <input asp-for="WorkTypeID" class="form-control" />
+            </div>*@
+             <div class="form-group">
+                <label asp-for="WorkTypeID" class="control-label"></label>
+                <select id="DemandLetterId" asp-for="WorkTypeID" class="form-control">
+                    <option value="">Please Select</option>
+                    @if (Model.WorkTypeList != null && Model.WorkTypeList.Count > 0)
+                    {
+                        @foreach (var item in Model.WorkTypeList)
+                        {
+                             <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfMaleWorker" class="control-label"></label>
+                <input asp-for="NoOfMaleWorker" class="form-control" />
+                <span asp-validation-for="NoOfMaleWorker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfFemaleWorker" class="control-label"></label>
+                <input asp-for="NoOfFemaleWorker" class="form-control" />
+                <span asp-validation-for="NoOfFemaleWorker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalNoOfWorker" class="control-label"></label>
+                <input asp-for="TotalNoOfWorker" class="form-control" />
+                <span asp-validation-for="TotalNoOfWorker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remark" class="control-label"></label>
+                <textarea type="text" class="form-control" asp-for="Remark" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
