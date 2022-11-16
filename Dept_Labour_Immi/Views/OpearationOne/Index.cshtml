@@ -11,6 +11,7 @@
 <table class="table" id="operTB">
     <thead>
         <tr>
+            <th> @Html.DisplayNameFor(model => model.No)</th>
             <th>
                 @Html.DisplayNameFor(model => model.ApplyDate)
             </th>
@@ -45,9 +46,14 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            var index = 1;
+        }
         @foreach (var item in Model)
         {
+
             <tr>
+                <td>@index</td>
                 <td>
                     @Convert.ToDateTime(item.ApplyDate).ToString("dd/MM/yyyy")
                 </td>
@@ -84,6 +90,7 @@
                     <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>
+            index++;
         }
     </tbody>
 </table>

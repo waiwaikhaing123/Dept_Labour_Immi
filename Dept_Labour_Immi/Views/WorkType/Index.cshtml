@@ -12,6 +12,7 @@
 <table class="table" id="WorkTB">
     <thead>
         <tr>
+            <th>#</th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -22,9 +23,13 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            var index = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
+                <td>@index</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -37,6 +42,7 @@
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
+            index++;
         }
     </tbody>
 </table>
