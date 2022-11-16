@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
+using static Humanizer.On;
 
 namespace Dept_Labour_Immi.Controllers
 {
@@ -55,6 +56,9 @@ namespace Dept_Labour_Immi.Controllers
         {
             OpearationOne oper = new OpearationOne();
             oper.WorkTypeList = _operSer.WorkTypeList();
+            oper.ThaiCompanyList = _operSer.ThaiCompanyList();
+            oper.AgencyList = _operSer.AgencyList();
+            oper.DOEList = _operSer.DOEList();
             oper.ApplyDate = DateTime.Now;
             oper.DocumentCompleteDate = DateTime.Now;
             return View(oper);
@@ -65,10 +69,9 @@ namespace Dept_Labour_Immi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ApplyDate,DocumentCompleteDate,WorkTypeID,NoOfMaleWorker,NoOfFemaleWorker,TotalNoOfWorker,Remark")] OpearationOne opearationOne)
+        public async Task<IActionResult> Create([Bind("ID,ApplyDate,DocumentCompleteDate,AgencyID,ThaiCompanyID,DOEID,WorkTypeID,NoOfMaleWorker,NoOfFemaleWorker,TotalNoOfWorker,Remark")] OpearationOne opearationOne)
         {
-            //ID,ApplyDate,DocumentCompleteDate,AgencyID,ThaiCompanyID,DOEID,WorkTypeID,NoOfMaleWorker,NoOfFemaleWorker,TotalNoOfWorker,Remark
-          //  if (ModelState.IsValid)
+            //  if (ModelState.IsValid)
            // {
                 _context.Add(opearationOne);
                 await _context.SaveChangesAsync();
@@ -80,8 +83,6 @@ namespace Dept_Labour_Immi.Controllers
         // GET: OpearationOne/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //OpearationOne oper = new OpearationOne();
-            
             if (id == null || _context.opearationOne == null)
             {
                 return NotFound();
@@ -89,6 +90,9 @@ namespace Dept_Labour_Immi.Controllers
            
             var operation = await _context.opearationOne.FindAsync(id);
             operation.WorkTypeList = _operSer.WorkTypeList();
+            operation.ThaiCompanyList = _operSer.ThaiCompanyList();
+            operation.AgencyList = _operSer.AgencyList();
+            operation.DOEList = _operSer.DOEList();
             if (operation == null)
             {
                 return NotFound();
@@ -101,7 +105,7 @@ namespace Dept_Labour_Immi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ApplyDate,DocumentCompleteDate,WorkTypeID,NoOfMaleWorker,NoOfFemaleWorker,TotalNoOfWorker,Remark")] OpearationOne oper)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,ApplyDate,DocumentCompleteDate,AgencyID,ThaiCompanyID,DOEID,WorkTypeID,NoOfMaleWorker,NoOfFemaleWorker,TotalNoOfWorker,Remark")] OpearationOne oper)
         {
             if (id != oper.ID)
             {
@@ -174,6 +178,40 @@ namespace Dept_Labour_Immi.Controllers
         private bool OperationOneExists(int id)
         {
             return _context.opearationOne.Any(e => e.ID == id);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetBlackListAgencyANDCompany(CheckBlackListForOperOne reqModel)
+        {
+            string str = "";
+            if (reqModel.Type == "Agency")
+            {
+                Blacklist model = _operSer.IsBlackListAgencyANDCompany(reqModel);
+                if (model is not null)
+                {
+                    str = "Pls choose another Agency.It was blacklisted.";
+                    return Json(str);
+                }
+            }
+            if (reqModel.Type == "ThaiCompany")
+            {
+                Blacklist model = _operSer.IsBlackListAgencyANDCompany(reqModel);
+                if (model is not null)
+                {
+                    str = "Pls choose another Thai Company.It was blacklisted.";
+                    return Json(str);
+                }
+            }
+            if (reqModel.Type == "DOENo")
+            {
+                OpearationOne model = _context.opearationOne.Where(x => x.DOEID == reqModel.id).FirstOrDefault();
+                if (model is not null)
+                {
+                    str = "Pls choose another DOE No.It is already existed.";
+                    return Json(str);
+                }
+            }
+            return Json(str);
         }
     }
 }

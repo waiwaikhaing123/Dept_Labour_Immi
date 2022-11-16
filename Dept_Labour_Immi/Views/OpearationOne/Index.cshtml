@@ -6,9 +6,9 @@
 
 <h1>Index</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="operTB">
     <thead>
         <tr>
             <th>
@@ -55,13 +55,13 @@
                     @Convert.ToDateTime(item.DocumentCompleteDate).ToString("dd/MM/yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.angency.Id)
+                    @Html.DisplayFor(modelItem => item.angencyName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.thaiCompany.ID)
+                    @Html.DisplayFor(modelItem => item.ThaiCompanyName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DOEID)
+                    @Html.DisplayFor(modelItem => item.DOEName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.worktypeName)
@@ -87,3 +87,11 @@
         }
     </tbody>
 </table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+           
+        })
+    </script>
+}

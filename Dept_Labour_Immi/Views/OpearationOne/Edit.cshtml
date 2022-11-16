@@ -6,7 +6,7 @@
 
 <h1>Edit</h1>
 
-<h4>OperationOne</h4>
+<h4>Operation One</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,22 +23,52 @@
                 <input asp-for="DocumentCompleteDate" class="form-control" type="date" />
                 <span asp-validation-for="DocumentCompleteDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           
+             <div class="form-group">
                 <label asp-for="AgencyID" class="control-label"></label>
-                <input asp-for="AgencyID" class="form-control" />
+                <select id="AgenID" asp-for="AgencyID" class="form-control">
+                    <option value="">Please Select</option>
+                    @if (Model.AgencyList != null && Model.AgencyList.Count > 0)
+                    {
+                        @foreach (var item in Model.AgencyList)
+                        {
+                                  <option value="@item.Id">@item.AgencyName</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="AgencyID" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ThaiCompanyID" class="control-label"></label>
-                <input asp-for="ThaiCompanyID" class="form-control" />
+                <select id="ThaiComID" asp-for="ThaiCompanyID" class="form-control">
+                    <option value="">Please Select</option>
+                    @if (Model.ThaiCompanyList != null && Model.ThaiCompanyList.Count > 0)
+                    {
+                        @foreach (var item in Model.ThaiCompanyList)
+                        {
+                           <option value="@item.ID">@item.CompanyName</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ThaiCompanyID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+              <div class="form-group">
                 <label asp-for="DOEID" class="control-label"></label>
-                <input asp-for="DOEID" class="form-control" />
+                <select id="doeID" asp-for="DOEID" class="form-control">
+                    <option value="">Please Select</option>
+                    @if (Model.DOEList != null && Model.DOEList.Count > 0)
+                    {
+                        @foreach (var item in Model.DOEList)
+                        {
+                           <option value="@item.ID">@item.DOENo</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="DOEID" class="text-danger"></span>
             </div>
-           @* <div class="form-group">
-                <label asp-for="WorkTypeID" class="control-label"></label>
-                <input asp-for="WorkTypeID" class="form-control" />
-            </div>*@
+
              <div class="form-group">
                 <label asp-for="WorkTypeID" class="control-label"></label>
                 <select id="DemandLetterId" asp-for="WorkTypeID" class="form-control">
@@ -47,10 +77,11 @@
                     {
                         @foreach (var item in Model.WorkTypeList)
                         {
-                             <option value="@item.Id">@item.Name</option>
+                                     <option value="@item.Id">@item.Name</option>
                         }
                     }
                 </select>
+                <span asp-validation-for="WorkTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NoOfMaleWorker" class="control-label"></label>
@@ -83,6 +114,90 @@
 </div>
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#AgenID').on('change', function () {
+                var str = $('#AgenID').val();
+                console.log(str);
+                var _id = $(this).val();
+                console.log(_id);
+                var _reqModel = { id: _id, Type: "Agency" };
+                console.log(_reqModel);
+                $.ajax({
+                    type: "POST",
+                    url: "/OpearationOne/GetBlackListAgencyANDCompany",
+                    data: { reqModel: _reqModel },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response != "") {
+                            $("#Message").text(response);
+                            $("#headerId").html("Agency");
+                            $('#SuccessModal').modal('show');
+                            $("#AgenID").val("");
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $('#ThaiComID').on('change', function () {
+                var _id = $(this).val();
+                var _reqModel = { id: _id, Type: "ThaiCompany" };
+                $.ajax({
+                    type: "POST",
+                    url: "/OpearationOne/GetBlackListAgencyANDCompany",
+                    data: { reqModel: _reqModel },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response != "") {
+                            $("#Message").text(response);
+                            $("#headerId").html("Thai Company");
+                            $('#SuccessModal').modal('show');
+                            $("#ThaiComID").val("");
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $('#doeID').on('change', function () {
+                var _id = $(this).val();
+                var _reqModel = { id: _id, Type: "DOENo" };
+                $.ajax({
+                    type: "POST",
+                    url: "/OpearationOne/GetBlackListAgencyANDCompany",
+                    data: { reqModel: _reqModel },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response != "") {
+                            $("#Message").text(response);
+                            $("#headerId").html("DOE NO");
+                            $('#SuccessModal').modal('show');
+                            $("#doeID").val("");
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+        });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

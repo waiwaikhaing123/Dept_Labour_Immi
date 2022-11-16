@@ -16,5 +16,6 @@ namespace Dept_Labour_Immi.Data
         public DbSet<ThaiCompany> thaiCompanies { get; set; }
         public DbSet<WorkType> WorkType { get; set; }
         public DbSet<OpearationOne> opearationOne { get; set; }
+        public DbSet<DOE> DOEs { get; set; }
     }
 }

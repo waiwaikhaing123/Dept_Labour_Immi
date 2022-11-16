@@ -4,6 +4,7 @@ using Dept_Labour_Immi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dept_Labour_Immi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221116044428_DOE")]
+    partial class DOE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,6 +77,10 @@ namespace Dept_Labour_Immi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,21 +88,16 @@ namespace Dept_Labour_Immi.Migrations
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ThaiCompanyID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Todate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("penaltyType")
+                    b.Property<string>("penalty")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AgencyID");
-
-                    b.HasIndex("ThaiCompanyID");
 
                     b.ToTable("blacklists");
                 });
@@ -463,13 +464,7 @@ namespace Dept_Labour_Immi.Migrations
                         .WithMany("blacklists")
                         .HasForeignKey("AgencyID");
 
-                    b.HasOne("Dept_Labour_Immi.Models.ThaiCompany", "thaiCompany")
-                        .WithMany()
-                        .HasForeignKey("ThaiCompanyID");
-
                     b.Navigation("agency");
-
-                    b.Navigation("thaiCompany");
                 });
 
             modelBuilder.Entity("Dept_Labour_Immi.Models.OpearationOne", b =>
