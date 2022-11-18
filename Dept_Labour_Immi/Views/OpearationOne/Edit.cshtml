@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h1>Edit</h1>
@@ -23,8 +25,8 @@
                 <input asp-for="DocumentCompleteDate" class="form-control" type="date" />
                 <span asp-validation-for="DocumentCompleteDate" class="text-danger"></span>
             </div>
-           
-             <div class="form-group">
+
+            <div class="form-group">
                 <label asp-for="AgencyID" class="control-label"></label>
                 <select id="AgenID" asp-for="AgencyID" class="form-control">
                     <option value="">Please Select</option>
@@ -32,7 +34,7 @@
                     {
                         @foreach (var item in Model.AgencyList)
                         {
-                                  <option value="@item.Id">@item.AgencyName</option>
+                            <option value="@item.Id">@item.AgencyName</option>
                         }
                     }
                 </select>
@@ -47,14 +49,14 @@
                     {
                         @foreach (var item in Model.ThaiCompanyList)
                         {
-                           <option value="@item.ID">@item.CompanyName</option>
+                            <option value="@item.ID">@item.CompanyName</option>
                         }
                     }
                 </select>
                 <span asp-validation-for="ThaiCompanyID" class="text-danger"></span>
             </div>
 
-              <div class="form-group">
+            <div class="form-group">
                 <label asp-for="DOEID" class="control-label"></label>
                 <select id="doeID" asp-for="DOEID" class="form-control">
                     <option value="">Please Select</option>
@@ -62,14 +64,14 @@
                     {
                         @foreach (var item in Model.DOEList)
                         {
-                           <option value="@item.ID">@item.DOENo</option>
+                            <option value="@item.ID">@item.DOENo</option>
                         }
                     }
                 </select>
                 <span asp-validation-for="DOEID" class="text-danger"></span>
             </div>
 
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="WorkTypeID" class="control-label"></label>
                 <select id="DemandLetterId" asp-for="WorkTypeID" class="form-control">
                     <option value="">Please Select</option>
@@ -77,7 +79,7 @@
                     {
                         @foreach (var item in Model.WorkTypeList)
                         {
-                                     <option value="@item.Id">@item.Name</option>
+                            <option value="@item.Id">@item.Name</option>
                         }
                     }
                 </select>
@@ -198,7 +200,7 @@
 
         });
     </script>
-    @{
+  @*  @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    }*@
     }
